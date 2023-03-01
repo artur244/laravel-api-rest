@@ -152,4 +152,15 @@ class BooksController extends TestCase
 
         $response->assertStatus(204);
     }
+
+    public function test_post_book_should_validate_when_try_create_a_invalid_nullable_book()
+    {
+        $response = $this->postJson('/api/books', []);
+
+        $response->assertStatus(422);
+
+        $response->assertJson(function(AssertableJson $json){
+            $json->hasAll(['message', 'errors']);
+        });
+    }
 }
